@@ -1,6 +1,6 @@
 const std = @import("std");
 
-pub fn build(b: *std.Build) void {
+pub fn build(b: *std.Build) !void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
 
@@ -15,6 +15,38 @@ pub fn build(b: *std.Build) void {
         .name = "zig_vma",
         .root_module = lib_mod,
     });
+
+    // ------------------------------------------------------------------------
+    // START: Vulkan memory allocator
+    // ------------------------------------------------------------------------
+    lib.linkLibCpp(); // VMA is a CPP library.
+
+    const dep = b.dependency("VulkanMemoryAllocator", .{});
+    const include_path = dep.path("include");
+
+    // Generate implementation
+    const impl = try std.fs.createFileAbsolute(
+        try dep.path("vma.cc").getPath3(
+            b,
+            &lib.step,
+        ).toString(b.allocator),
+        .{},
+    );
+    try impl.writeAll(
+        \\#define VMA_IMPLEMENTATION
+        \\#define VMA_STATIC_VULKAN_FUNCTIONS 0
+        \\#include <vk_mem_alloc.h>
+    );
+    impl.close();
+
+    lib.addCSourceFile(.{
+        .file = dep.path("vma.cc"),
+        .flags = &.{"-std=c++17"},
+    });
+    lib.addIncludePath(include_path);
+    // ------------------------------------------------------------------------
+    // END: Vulkan memory allocator
+    // ------------------------------------------------------------------------
 
     b.installArtifact(lib);
 
