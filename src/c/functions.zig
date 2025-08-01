@@ -263,14 +263,13 @@ pub extern fn vmaGetMemoryTypeProperties(
     p_flags: *vk.MemoryPropertyFlags,
 ) void;
 
-// TODO: Fix for windows HANDLE.
-// /// Given an allocation, returns Win32 handle that may be imported by other processes or APIs.
-// pub extern fn vmaGetMemoryWin32Handle(
-//     allocator: Allocator,
-//     allocation: Allocation,
-//     hTargetProcess: HANDLE,
-//     pHandle: ?*HANDLE,
-// ) vk.Result;
+/// Given an allocation, returns Win32 handle that may be imported by other processes or APIs.
+pub extern fn vmaGetMemoryWin32Handle(
+    allocator: Allocator,
+    allocation: Allocation,
+    hTargetProcess: HANDLE,
+    pHandle: ?*HANDLE,
+) vk.Result;
 
 /// PhysicalDeviceProperties are fetched from physicalDevice by the allocator. You can access it here, without fetching it again on your own.
 pub extern fn vmaGetPhysicalDeviceProperties(
@@ -578,8 +577,11 @@ pub const PfnVmaFreeDeviceMemoryFunction = ?*const fn (
     p_user_data: ?*anyopaque,
 ) callconv(vulkan_call_conv) void;
 
+pub const HANDLE = if (@hasDecl(root, "HANDLE")) root.HANDLE else std.os.windows.HANDLE;
+
 const std = @import("std");
 const builtin = @import("builtin");
+const root = @import("root");
 
 const vk = @import("vulkan");
 
