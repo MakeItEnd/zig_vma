@@ -12,7 +12,7 @@ pub fn build(b: *std.Build) !void {
 
     const lib = b.addLibrary(.{
         .linkage = .static,
-        .name = "zig_vma",
+        .name = "zw_vma",
         .root_module = lib_mod,
     });
 
