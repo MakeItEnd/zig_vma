@@ -1,6 +1,9 @@
 Zig Wrapped - Vulkan Memory Allocator
 =====================================
 
+> [!WARNING]
+> Work In Progress.
+
 Using VMA version 3.3.0
 
 # Synopsis
