@@ -809,7 +809,7 @@ pub const VulkanMemoryAllocator = struct {
     }
 
     /// Helps to find memoryTypeIndex, given VkBufferCreateInfo and VmaAllocationCreateInfo.
-    pub fn bufferMemoryFindTypeIndex(
+    pub fn bufferInfoFindMemoryTypeIndex(
         self: *const VulkanMemoryAllocator,
         buffer_create_info: *const vk.BufferCreateInfo,
         allocation_create_info: *const c.AllocationCreateInfo,
@@ -819,6 +819,143 @@ pub const VulkanMemoryAllocator = struct {
         const result = c.vmaFindMemoryTypeIndexForBufferInfo(
             self.handle,
             buffer_create_info,
+            allocation_create_info,
+            &memory_type_index,
+        );
+
+        if (result != .success) {
+            return error.FeatureNotPresent;
+        }
+
+        return memory_type_index;
+    }
+
+    /// Function similar to vmaCreateBuffer().
+    pub fn imageCreate(
+        self: *VulkanMemoryAllocator,
+        image_create_info: *const vk.ImageCreateInfo,
+        allocation_create_info: *const c.AllocationCreateInfo,
+        allocation: ?*c.Allocation,
+        allocation_info: ?*c.AllocationInfo,
+    ) !vk.Image {
+        var image: vk.Image = .null_handle;
+
+        const result = c.vmaCreateImage(
+            self.handle,
+            image_create_info,
+            allocation_create_info,
+            &image,
+            allocation,
+            allocation_info,
+        );
+
+        if (result != .success or image == .null_handle) {
+            return error.FailedToCreateImage;
+        }
+
+        return image;
+    }
+
+    /// Function similar to vmaCreateAliasingBuffer() but for images.
+    pub fn imageCreateAliasing(
+        self: *VulkanMemoryAllocator,
+        allocation: c.Allocation,
+        image_create_info: *const vk.ImageCreateInfo,
+    ) !vk.Image {
+        var image: vk.Image = .null_handle;
+
+        const result = c.vmaCreateAliasingImage(
+            self.handle,
+            allocation,
+            image_create_info,
+            &image,
+        );
+
+        if (result != .success or image == .null_handle) {
+            return error.FailedToCreateImage;
+        }
+
+        return image;
+    }
+
+    /// Function similar to vmaCreateAliasingBuffer2() but for images.
+    pub fn imageCreateAliasing2(
+        self: *VulkanMemoryAllocator,
+        allocation: c.Allocation,
+        allocation_local_offset: vk.DeviceSize,
+        image_create_info: *const vk.ImageCreateInfo,
+    ) !vk.Image {
+        var image: vk.Image = .null_handle;
+
+        const result = c.vmaCreateAliasingImage2(
+            self.handle,
+            allocation,
+            allocation_local_offset,
+            image_create_info,
+            &image,
+        );
+
+        if (result != .success or image == .null_handle) {
+            return error.FailedToCreateImage;
+        }
+
+        return image;
+    }
+
+    /// Destroys Vulkan image and frees allocated memory.
+    pub fn imageDestroy(
+        self: *VulkanMemoryAllocator,
+        image: ?vk.Image,
+        allocation: ?c.Allocation,
+    ) void {
+        c.vmaDestroyImage(
+            self.handle,
+            image,
+            allocation,
+        );
+    }
+
+    /// Binds image to allocation.
+    pub fn imageBindMemory(
+        self: *VulkanMemoryAllocator,
+        allocation: c.Allocation,
+        image: vk.Image,
+    ) vk.Result {
+        return c.vmaBindImageMemory(
+            self.handle,
+            allocation,
+            image,
+        );
+    }
+
+    /// Binds image to allocation with additional parameters.
+    pub fn imageBindMemory2(
+        self: *VulkanMemoryAllocator,
+        allocation: c.Allocation,
+        allocation_local_offset: vk.DeviceSize,
+        image: vk.Image,
+        p_next: ?*const anyopaque,
+    ) vk.Result {
+        return c.vmaBindImageMemory2(
+            self.handle,
+            allocation,
+            allocation_local_offset,
+            image,
+            p_next,
+        );
+    }
+
+    /// Helps to find memoryTypeIndex, given VkImageCreateInfo and VmaAllocationCreateInfo.
+    pub fn imageInfoFindMemoryTypeIndex(
+        self: *const VulkanMemoryAllocator,
+        image_create_info: *const vk.ImageCreateInfo,
+        allocation_create_info: *const c.AllocationCreateInfo,
+    ) !u32 {
+        var memory_type_index: u32 = undefined;
+
+        const result = c.vmaFindMemoryTypeIndexForImageInfo(
+            self.handle,
+            image_create_info,
             allocation_create_info,
             &memory_type_index,
         );

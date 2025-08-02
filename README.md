@@ -109,15 +109,15 @@ For the `VulkanMemoryAllocator` wrapper all `C` functions were renamed to:
 | `vmaDestroyBuffer` | `bufferDestroy` |
 | `vmaBindBufferMemory` | `bufferBindMemory` |
 | `vmaBindBufferMemory2` | `bufferBindMemory2` |
-| `vmaFindMemoryTypeIndexForBufferInfo` | `bufferMemoryFindTypeIndex` |
+| `vmaFindMemoryTypeIndexForBufferInfo` | `bufferInfoFindMemoryTypeIndex` |
 |||
-| `vmaCreateImage` | `` |
-| `vmaCreateAliasingImage` | `` |
-| `vmaCreateAliasingImage2` | `` |
-| `vmaDestroyImage` | `` |
-| `vmaBindImageMemory` | `` |
-| `vmaBindImageMemory2` | `` |
-| `vmaFindMemoryTypeIndexForImageInfo` | `` |
+| `vmaCreateImage` | `imageCreate` |
+| `vmaCreateAliasingImage` | `imageCreateAliasing` |
+| `vmaCreateAliasingImage2` | `imageCreateAliasing2` |
+| `vmaDestroyImage` | `imageDestroy` |
+| `vmaBindImageMemory` | `imageBindMemory` |
+| `vmaBindImageMemory2` | `imageBindMemory2` |
+| `vmaFindMemoryTypeIndexForImageInfo` | `imageInfoFindMemoryTypeIndex` |
 
 For the `VirtualBlock` wrapper all `C` functions were renamed to:
 
@@ -142,6 +142,7 @@ For the `VirtualBlock` wrapper all `C` functions were renamed to:
 > Lots of inspiration taken form [https://github.com/damemay/vk-mem-alloc-zig](https://github.com/damemay/vk-mem-alloc-zig).
 
 # TODO
+
 - [x] Finish `C` API.
 - [ ] Write a wrapper over the functionality.
 - [ ] Add example.
