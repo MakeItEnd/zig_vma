@@ -10,8 +10,8 @@ Using VMA version 3.3.0
 
 This is a ziggyfied wrapper over [VulkanMemoryAllocator](https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator) that also exposes the `C` API.
 
-> [!INFO]
-> This library tighlty couple with [Snektron/vulkan-zig](https://github.com/Snektron/vulkan-zig) library. (This [MAY](https://datatracker.ietf.org/doc/html/rfc2119#section-5) change in the future)
+> [!NOTE]
+> This library tightly coupled with [Snektron/vulkan-zig](https://github.com/Snektron/vulkan-zig) library. (This [MAY](https://datatracker.ietf.org/doc/html/rfc2119#section-5) change in the future)
 
 # How to install
 
