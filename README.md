@@ -53,6 +53,14 @@ For the `VulkanMemoryAllocator` wrapper all `C` functions were renamed to:
 | `vmaDestroyAllocator` | `deinit` |
 | `vmaImportVulkanFunctionsFromVolk` | `importVulkanFunctionsFromVolk` |
 | `vmaCheckCorruption` | `checkCorruption` |
+| `vmaGetAllocatorInfo` | `getInfo` |
+| `vmaGetAllocatorInfo` | `getHeapBudgets` |
+| `vmaGetPhysicalDeviceProperties` | `getPhysicalDeviceProperties` |
+| `vmaSetCurrentFrameIndex` | `setCurrentFrameIndex` |
+|||
+| `vmaBuildStatsString` | `statsBuildString` |
+| `vmaFreeStatsString` | `statsFreeString` |
+| `vmaCalculateStatistics` | `calculateStatistics` |
 | `` | `` |
 
 # Extra info
@@ -63,3 +71,5 @@ For the `VulkanMemoryAllocator` wrapper all `C` functions were renamed to:
 # TODO
 - [x] Finish `C` API.
 - [ ] Write a wrapper over the functionality.
+- [ ] Add example.
+- [ ] Improve documentation.
