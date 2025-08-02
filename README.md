@@ -144,7 +144,7 @@ For the `VirtualBlock` wrapper all `C` functions were renamed to:
 # TODO
 
 - [x] Finish `C` API.
-- [ ] Write a wrapper over the functionality.
+- [x] Write a wrapper over the functionality.
 - [ ] Add example.
 - [ ] Improve documentation.
 - [ ] Convert more `vk.Result` returns form wrapped functions to a more `zig`-like response.
