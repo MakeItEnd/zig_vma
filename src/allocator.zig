@@ -187,7 +187,7 @@ pub const VulkanMemoryAllocator = struct {
         create_info: *const c.AllocationCreateInfo,
         allocation_info: ?*c.AllocationInfo,
     ) !c.Allocation {
-        var allocation: ?*c.Allocation = .null_handle;
+        var allocation: c.Allocation = .null_handle;
 
         const result = c.vmaAllocateMemory(
             self.handle,
@@ -201,7 +201,213 @@ pub const VulkanMemoryAllocator = struct {
             return error.FaildToAllocateMemory;
         }
 
-        return c.Allocation;
+        return allocation;
+    }
+
+    /// Allocates memory suitable for given VkBuffer.
+    pub fn memoryAllocateForBuffer(
+        self: *VulkanMemoryAllocator,
+        buffer: vk.Buffer,
+        create_info: *const c.AllocationCreateInfo,
+        allocation_info: ?*c.AllocationInfo,
+    ) !c.Allocation {
+        var allocation: c.Allocation = .null_handle;
+
+        const result = c.vmaAllocateMemoryForBuffer(
+            self.handle,
+            buffer,
+            create_info,
+            &allocation,
+            allocation_info,
+        );
+
+        if (result != .success or allocation == .null_handle) {
+            return error.FaildToAllocateMemoryForBuffer;
+        }
+
+        return allocation;
+    }
+
+    /// Allocates memory suitable for given VkImage.
+    pub fn memoryAllocateForImage(
+        self: *VulkanMemoryAllocator,
+        image: vk.Image,
+        create_info: *const c.AllocationCreateInfo,
+        allocation_info: ?*c.AllocationInfo,
+    ) !c.Allocation {
+        var allocation: c.Allocation = .null_handle;
+
+        const result = c.vmaAllocateMemoryForImage(
+            self.handle,
+            image,
+            create_info,
+            &allocation,
+            allocation_info,
+        );
+
+        if (result != .success or allocation == .null_handle) {
+            return error.FaildToAllocateMemoryForImage;
+        }
+
+        return allocation;
+    }
+
+    /// General purpose memory allocation for multiple allocation objects at once.
+    pub fn memoryPagesAllocate(
+        self: *VulkanMemoryAllocator,
+        vk_memory_requirements: *const vk.MemoryRequirements,
+        create_info: *const c.AllocationCreateInfo,
+        allocation_count: usize,
+        allocation_info: ?*c.AllocationInfo,
+    ) !c.Allocation {
+        var allocation: c.Allocation = .null_handle;
+
+        const result = c.vmaAllocateMemoryPages(
+            self.handle,
+            vk_memory_requirements,
+            create_info,
+            allocation_count,
+            &allocation,
+            allocation_info,
+        );
+
+        if (result != .success or allocation == .null_handle) {
+            return error.FaildToAllocateMemoryForPages;
+        }
+
+        return allocation;
+    }
+
+    /// Frees memory previously allocated using vmaAllocateMemory(), vmaAllocateMemoryForBuffer(), or vmaAllocateMemoryForImage().
+    pub fn memoryFree(
+        self: *VulkanMemoryAllocator,
+        allocation: ?c.Allocation,
+    ) void {
+        c.vmaFreeMemory(self.handle, allocation);
+    }
+
+    /// Frees memory and destroys multiple allocations.
+    pub fn memoryPagesFree(
+        self: *VulkanMemoryAllocator,
+        allocation_count: usize,
+        allocations: ?*const c.Allocation,
+    ) void {
+        c.vmaFreeMemoryPages(
+            self.handle,
+            allocation_count,
+            allocations,
+        );
+    }
+
+    /// Helps to find memoryTypeIndex, given memoryTypeBits and VmaAllocationCreateInfo.
+    pub fn memoryFindTypeIndex(
+        self: *VulkanMemoryAllocator,
+        memory_type_bits: u32,
+        allocation_create_info: *const c.AllocationCreateInfo,
+    ) u32 {
+        var memory_type_index: u32 = undefined;
+
+        const result = c.vmaFindMemoryTypeIndex(
+            self.handle,
+            memory_type_bits,
+            allocation_create_info,
+            &memory_type_index,
+        );
+
+        if (result != .success) {
+            return error.FeatureNotPresent;
+        }
+
+        return memory_type_index;
+    }
+
+    /// PhysicalDeviceMemoryProperties are fetched from physicalDevice by the allocator. You can access it here, without fetching it again on your own.
+    pub fn memoryGetProperties(
+        self: *VulkanMemoryAllocator,
+    ) vk.PhysicalDeviceMemoryProperties {
+        var physical_device_memory_properties: vk.PhysicalDeviceMemoryProperties = .{};
+
+        c.vmaGetMemoryProperties(
+            self.handle,
+            &physical_device_memory_properties,
+        );
+
+        return physical_device_memory_properties;
+    }
+
+    /// Given Memory Type Index, returns Property Flags of this memory type.
+    ///
+    /// This is just a convenience function. Same information can be obtained using vmaGetMemoryProperties().
+    pub fn memoryGetTypeProperties(
+        self: *VulkanMemoryAllocator,
+        memory_type_index: u32,
+    ) vk.MemoryPropertyFlags {
+        var flags: vk.MemoryPropertyFlags = .{};
+
+        c.vmaGetMemoryTypeProperties(
+            self.handle,
+            memory_type_index,
+            &flags,
+        );
+
+        return flags;
+    }
+
+    /// Maps memory represented by given allocation and returns pointer to it.
+    pub fn memoryMap(
+        self: *VulkanMemoryAllocator,
+        allocation: c.Allocation,
+        data: ?[*]*anyopaque,
+    ) !void {
+        const result = c.vmaMapMemory(
+            self.handle,
+            allocation,
+            data,
+        );
+
+        if (result != .success) {
+            return error.FailedToMapMemory;
+        }
+    }
+
+    /// Unmaps memory represented by given allocation, mapped previously using vmaMapMemory().
+    pub fn memoryUnmap(
+        self: *VulkanMemoryAllocator,
+        allocation: c.Allocation,
+    ) void {
+        c.vmaUnmapMemory(self.handle, allocation);
+    }
+
+    /// Maps the allocation temporarily if needed, copies data from specified host pointer to it, and flushes the memory from the host caches if needed.
+    pub fn memoryCopyToAllocation(
+        self: *VulkanMemoryAllocator,
+        src_host_pointer: *const anyopaque,
+        dst_allocation: c.Allocation,
+        dst_allocation_local_offset: vk.DeviceSize,
+        size: vk.DeviceSize,
+    ) vk.Result {
+        return c.vmaCopyMemoryToAllocation(
+            self.handle,
+            src_host_pointer,
+            dst_allocation,
+            dst_allocation_local_offset,
+            size,
+        );
+    }
+
+    /// Given an allocation, returns Win32 handle that may be imported by other processes or APIs.
+    pub fn memoryGetWin32Handle(
+        self: *const VulkanMemoryAllocator,
+        allocation: c.Allocation,
+        hTargetProcess: c.HANDLE,
+        Handle: ?*c.HANDLE,
+    ) vk.Result {
+        return c.vmaGetMemoryWin32Handle(
+            self.handle,
+            allocation,
+            hTargetProcess,
+            Handle,
+        );
     }
 };
 

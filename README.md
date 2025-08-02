@@ -44,6 +44,8 @@ exe.root_module.addImport("zig_vma", zig_vma);
 
 # Details
 
+Most wrapped methods for equivalent `C` functions that would return `vk.Result` will convert that to a zig error if typically only one variant of it is returned and its a clear error. It keeps the return type when multiple variants of `vk.Result` are returned that each denote a specific problem with the users vulkan code, or the VMA documentation doesn't specify the variants.
+
 For the `VulkanMemoryAllocator` wrapper all `C` functions were renamed to:
 
 | Old Name | New Name |
@@ -68,18 +70,18 @@ For the `VulkanMemoryAllocator` wrapper all `C` functions were renamed to:
 | `vmaEndDefragmentationPass` | `defragmentationPassEnd` |
 |||
 | `vmaAllocateMemory` | `memoryAllocate` |
-| `vmaAllocateMemoryForBuffer` | `` |
-| `vmaAllocateMemoryForImage` | `` |
-| `vmaAllocateMemoryPages` | `` |
-| `vmaFreeMemory` | `` |
-| `vmaFreeMemoryPages` | `` |
-| `vmaFindMemoryTypeIndex` | `` |
-| `vmaGetMemoryProperties` | `` |
-| `vmaGetMemoryTypeProperties` | `` |
-| `vmaMapMemory` | `` |
-| `vmaUnmapMemory` | `` |
-| `vmaCopyMemoryToAllocation` | `` |
-| `vmaGetMemoryWin32Handle` | `` |
+| `vmaAllocateMemoryForBuffer` | `memoryAllocateForBuffer` |
+| `vmaAllocateMemoryForImage` | `memoryAllocateForImage` |
+| `vmaAllocateMemoryPages` | `memoryPagesAllocate` |
+| `vmaFreeMemory` | `memoryFree` |
+| `vmaFreeMemoryPages` | `memoryPagesFree` |
+| `vmaFindMemoryTypeIndex` | `memoryFindTypeIndex` |
+| `vmaGetMemoryProperties` | `memoryGetProperties` |
+| `vmaGetMemoryTypeProperties` | `memoryGetTypeProperties` |
+| `vmaMapMemory` | `memoryMap` |
+| `vmaUnmapMemory` | `memoryUnmap` |
+| `vmaCopyMemoryToAllocation` | `memoryCopyToAllocation` |
+| `vmaGetMemoryWin32Handle` | `memoryGetWin32Handle` |
 |||
 | `vmaFlushAllocation` | `` |
 | `vmaFlushAllocations` | `` |
