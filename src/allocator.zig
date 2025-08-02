@@ -564,6 +564,106 @@ pub const VulkanMemoryAllocator = struct {
             size,
         );
     }
+
+    /// Allocates Vulkan device memory and creates VmaPool object.
+    pub fn poolCreate(
+        self: *VulkanMemoryAllocator,
+        create_info: *c.PoolCreateInfo,
+    ) !c.Pool {
+        var pool: c.Pool = .null_handle;
+
+        const result = c.vmaCreatePool(
+            self.handle,
+            create_info,
+            &pool,
+        );
+
+        if (result != .success or pool == .null_handle) {
+            return error.FailedToCreatePool;
+        }
+
+        return pool;
+    }
+
+    /// Destroys VmaPool object and frees Vulkan device memory.
+    pub fn poolDestroy(
+        self: *VulkanMemoryAllocator,
+        pool: c.Pool,
+    ) vk.Result {
+        return c.vmaDestroyPool(
+            self.handle,
+            pool,
+        );
+    }
+
+    /// Retrieves name of a custom pool.
+    pub fn poolNameGet(
+        self: *const VulkanMemoryAllocator,
+        pool: c.Pool,
+        name: ?[*:0]const u8,
+    ) void {
+        c.vmaGetPoolName(
+            self.handle,
+            pool,
+            name,
+        );
+    }
+
+    /// Sets name of a custom pool.
+    pub fn poolNameSet(
+        self: *VulkanMemoryAllocator,
+        pool: c.Pool,
+        name: ?[*:0]const u8,
+    ) void {
+        c.vmaSetPoolName(
+            self.handle,
+            pool,
+            name,
+        );
+    }
+
+    /// Checks magic number in margins around all allocations in given memory pool in search for corruptions.
+    pub fn poolCheckCorruption(
+        self: *const VulkanMemoryAllocator,
+        pool: c.Pool,
+    ) vk.Result {
+        return c.vmaCheckPoolCorruption(
+            self.handle,
+            pool,
+        );
+    }
+
+    /// Retrieves statistics of existing VmaPool object.
+    pub fn poolGetStatistics(
+        self: *const VulkanMemoryAllocator,
+        pool: c.Pool,
+    ) c.Statistics {
+        var pool_stats: c.Statistics = .{};
+
+        c.vmaGetPoolStatistics(
+            self.handle,
+            pool,
+            &pool_stats,
+        );
+
+        return pool_stats;
+    }
+
+    /// Retrieves detailed statistics of existing VmaPool object.
+    pub fn poolCalculateStatistics(
+        self: *const VulkanMemoryAllocator,
+        pool: c.Pool,
+    ) c.DetailedStatistics {
+        var pool_stats: c.DetailedStatistics = .{};
+
+        c.vmaCalculatePoolStatistics(
+            self.handle,
+            pool,
+            &pool_stats,
+        );
+
+        return pool_stats;
+    }
 };
 
 const vk = @import("vulkan");

@@ -94,13 +94,13 @@ For the `VulkanMemoryAllocator` wrapper all `C` functions were renamed to:
 | `vmaSetAllocationUserData` | `allocationSetUserData` |
 | `vmaCopyAllocationToMemory` | `allocationCopyToMemory` |
 |||
-| `vmaCreatePool` | `` |
-| `vmaDestroyPool` | `` |
-| `vmaGetPoolName` | `` |
-| `vmaSetPoolName` | `` |
-| `vmaCheckPoolCorruption` | `` |
-| `vmaGetPoolStatistics` | `` |
-| `vmaCalculatePoolStatistics` | `` |
+| `vmaCreatePool` | `poolCreate` |
+| `vmaDestroyPool` | `poolDestroy` |
+| `vmaGetPoolName` | `poolNameGet` |
+| `vmaSetPoolName` | `poolNameSet` |
+| `vmaCheckPoolCorruption` | `poolCheckCorruption` |
+| `vmaGetPoolStatistics` | `poolGetStatistics` |
+| `vmaCalculatePoolStatistics` | `poolCalculateStatistics` |
 |||
 | `vmaCreateBuffer` | `` |
 | `vmaCreateBufferWithAlignment` | `` |
