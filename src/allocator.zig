@@ -127,6 +127,82 @@ pub const VulkanMemoryAllocator = struct {
 
         return total_statistics;
     }
+
+    /// Begins defragmentation process.
+    pub fn defragmentationBegin(
+        self: *VulkanMemoryAllocator,
+        info: *const c.DefragmentationInfo,
+        context: ?*c.DefragmentationContext,
+    ) vk.Result {
+        return c.vmaBeginDefragmentation(
+            self.handle,
+            info,
+            context,
+        );
+    }
+
+    /// Ends defragmentation process.
+    pub fn defragmentationEnd(
+        self: *VulkanMemoryAllocator,
+        context: c.DefragmentationContext,
+        stats: ?*c.DefragmentationStats,
+    ) void {
+        c.vmaEndDefragmentation(
+            self.handle,
+            context,
+            stats,
+        );
+    }
+
+    /// Starts single defragmentation pass.
+    pub fn defragmentationPassBegin(
+        self: *VulkanMemoryAllocator,
+        context: c.DefragmentationContext,
+        pass_info: *c.DefragmentationPassMoveInfo,
+    ) vk.Result {
+        return c.vmaBeginDefragmentationPass(
+            self.handle,
+            context,
+            pass_info,
+        );
+    }
+
+    /// Ends single defragmentation pass.
+    pub fn defragmentationPassEnd(
+        self: *VulkanMemoryAllocator,
+        context: c.DefragmentationContext,
+        pass_info: *c.DefragmentationPassMoveInfo,
+    ) vk.Result {
+        return c.vmaEndDefragmentationPass(
+            self.handle,
+            context,
+            pass_info,
+        );
+    }
+
+    /// General purpose memory allocation.
+    pub fn memoryAllocate(
+        self: *VulkanMemoryAllocator,
+        vk_memory_requirements: *const vk.MemoryRequirements,
+        create_info: *const c.AllocationCreateInfo,
+        allocation_info: ?*c.AllocationInfo,
+    ) !c.Allocation {
+        var allocation: ?*c.Allocation = .null_handle;
+
+        const result = c.vmaAllocateMemory(
+            self.handle,
+            vk_memory_requirements,
+            create_info,
+            &allocation,
+            allocation_info,
+        );
+
+        if (result != .success or allocation == .null_handle) {
+            return error.FaildToAllocateMemory;
+        }
+
+        return c.Allocation;
+    }
 };
 
 const vk = @import("vulkan");

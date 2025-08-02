@@ -61,7 +61,74 @@ For the `VulkanMemoryAllocator` wrapper all `C` functions were renamed to:
 | `vmaBuildStatsString` | `statsBuildString` |
 | `vmaFreeStatsString` | `statsFreeString` |
 | `vmaCalculateStatistics` | `calculateStatistics` |
-| `` | `` |
+|||
+| `vmaBeginDefragmentation` | `defragmentationBegin` |
+| `vmaEndDefragmentation` | `defragmentationEnd` |
+| `vmaBeginDefragmentationPass` | `defragmentationPassBegin` |
+| `vmaEndDefragmentationPass` | `defragmentationPassEnd` |
+|||
+| `vmaAllocateMemory` | `memoryAllocate` |
+| `vmaAllocateMemoryForBuffer` | `` |
+| `vmaAllocateMemoryForImage` | `` |
+| `vmaAllocateMemoryPages` | `` |
+| `vmaFreeMemory` | `` |
+| `vmaFreeMemoryPages` | `` |
+| `vmaFindMemoryTypeIndex` | `` |
+| `vmaGetMemoryProperties` | `` |
+| `vmaGetMemoryTypeProperties` | `` |
+| `vmaMapMemory` | `` |
+| `vmaUnmapMemory` | `` |
+| `vmaCopyMemoryToAllocation` | `` |
+| `vmaGetMemoryWin32Handle` | `` |
+|||
+| `vmaFlushAllocation` | `` |
+| `vmaFlushAllocations` | `` |
+| `vmaGetAllocationInfo` | `` |
+| `vmaGetAllocationInfo2` | `` |
+| `vmaGetAllocationMemoryProperties` | `` |
+| `vmaInvalidateAllocation` | `` |
+| `vmaInvalidateAllocations` | `` |
+| `vmaSetAllocationName` | `` |
+| `vmaSetAllocationUserData` | `` |
+| `vmaCopyAllocationToMemory` | `` |
+|||
+| `vmaCreateVirtualBlock` | `` |
+| `vmaDestroyVirtualBlock` | `` |
+| `vmaClearVirtualBlock` | `` |
+| `vmaIsVirtualBlockEmpty` | `` |
+| `vmaGetVirtualBlockStatistics` | `` |
+| `vmaBuildVirtualBlockStatsString` | `` |
+| `vmaFreeVirtualBlockStatsString` | `` |
+| `vmaCalculateVirtualBlockStatistics` | `` |
+| `vmaVirtualAllocate` | `` |
+| `vmaVirtualFree` | `` |
+| `vmaGetVirtualAllocationInfo` | `` |
+| `vmaSetVirtualAllocationUserData` | `` |
+|||
+| `vmaCreatePool` | `` |
+| `vmaDestroyPool` | `` |
+| `vmaGetPoolName` | `` |
+| `vmaSetPoolName` | `` |
+| `vmaCheckPoolCorruption` | `` |
+| `vmaGetPoolStatistics` | `` |
+| `vmaCalculatePoolStatistics` | `` |
+|||
+| `vmaCreateBuffer` | `` |
+| `vmaCreateBufferWithAlignment` | `` |
+| `vmaCreateAliasingBuffer` | `` |
+| `vmaCreateAliasingBuffer2` | `` |
+| `vmaDestroyBuffer` | `` |
+| `vmaBindBufferMemory` | `` |
+| `vmaBindBufferMemory2` | `` |
+| `vmaFindMemoryTypeIndexForBufferInfo` | `` |
+|||
+| `vmaCreateImage` | `` |
+| `vmaCreateAliasingImage` | `` |
+| `vmaCreateAliasingImage2` | `` |
+| `vmaDestroyImage` | `` |
+| `vmaBindImageMemory` | `` |
+| `vmaBindImageMemory2` | `` |
+| `vmaFindMemoryTypeIndexForImageInfo` | `` |
 
 # Extra info
 
