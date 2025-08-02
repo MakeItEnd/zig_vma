@@ -102,14 +102,14 @@ For the `VulkanMemoryAllocator` wrapper all `C` functions were renamed to:
 | `vmaGetPoolStatistics` | `poolGetStatistics` |
 | `vmaCalculatePoolStatistics` | `poolCalculateStatistics` |
 |||
-| `vmaCreateBuffer` | `` |
-| `vmaCreateBufferWithAlignment` | `` |
-| `vmaCreateAliasingBuffer` | `` |
-| `vmaCreateAliasingBuffer2` | `` |
-| `vmaDestroyBuffer` | `` |
-| `vmaBindBufferMemory` | `` |
-| `vmaBindBufferMemory2` | `` |
-| `vmaFindMemoryTypeIndexForBufferInfo` | `` |
+| `vmaCreateBuffer` | `bufferCreate` |
+| `vmaCreateBufferWithAlignment` | `bufferCreateWithAlignment` |
+| `vmaCreateAliasingBuffer` | `bufferCreateAliasing` |
+| `vmaCreateAliasingBuffer2` | `bufferCreateAliasing2` |
+| `vmaDestroyBuffer` | `bufferDestroy` |
+| `vmaBindBufferMemory` | `bufferBindMemory` |
+| `vmaBindBufferMemory2` | `bufferBindMemory2` |
+| `vmaFindMemoryTypeIndexForBufferInfo` | `bufferMemoryFindTypeIndex` |
 |||
 | `vmaCreateImage` | `` |
 | `vmaCreateAliasingImage` | `` |

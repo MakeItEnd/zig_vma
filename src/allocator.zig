@@ -664,6 +664,171 @@ pub const VulkanMemoryAllocator = struct {
 
         return pool_stats;
     }
+
+    /// Creates a new VkBuffer, allocates and binds memory for it.
+    pub fn bufferCreate(
+        self: *VulkanMemoryAllocator,
+        buffer_create_info: *const vk.BufferCreateInfo,
+        allocation_create_info: *const c.AllocationCreateInfo,
+        allocation: ?*c.Allocation,
+        allocation_info: ?*c.AllocationInfo,
+    ) !vk.Buffer {
+        var buffer: vk.Buffer = .null_handle;
+
+        const result = c.vmaCreateBuffer(
+            self.handle,
+            buffer_create_info,
+            allocation_create_info,
+            &buffer,
+            allocation,
+            allocation_info,
+        );
+
+        if (result != .success or buffer == .null_handle) {
+            return error.FailedToCreateBuffer;
+        }
+
+        return buffer;
+    }
+
+    /// Creates a buffer with additional minimum alignment.
+    pub fn bufferCreateWithAlignment(
+        self: *VulkanMemoryAllocator,
+        buffer_create_info: *const vk.BufferCreateInfo,
+        allocation_create_info: *const c.AllocationCreateInfo,
+        min_alignment: vk.DeviceSize,
+        allocation: ?*c.Allocation,
+        allocation_info: ?*c.AllocationInfo,
+    ) !vk.Buffer {
+        var buffer: vk.Buffer = .null_handle;
+
+        const result = c.vmaCreateBufferWithAlignment(
+            self.handle,
+            buffer_create_info,
+            allocation_create_info,
+            min_alignment,
+            &buffer,
+            allocation,
+            allocation_info,
+        );
+
+        if (result != .success or buffer == .null_handle) {
+            return error.FailedToCreateBuffer;
+        }
+
+        return buffer;
+    }
+
+    /// Creates a new VkBuffer, binds already created memory for it.
+    pub fn bufferCreateAliasing(
+        self: *VulkanMemoryAllocator,
+        allocation: c.Allocation,
+        buffer_create_info: *const vk.BufferCreateInfo,
+    ) !vk.Buffer {
+        var buffer: vk.Buffer = .null_handle;
+
+        const result = c.vmaCreateAliasingBuffer(
+            self.handle,
+            allocation,
+            buffer_create_info,
+            &buffer,
+        );
+
+        if (result != .success or buffer == .null_handle) {
+            return error.FailedToCreateBuffer;
+        }
+
+        return buffer;
+    }
+
+    /// Creates a new VkBuffer, binds already created memory for it.
+    pub fn bufferCreateAliasing2(
+        self: *VulkanMemoryAllocator,
+        allocation: c.Allocation,
+        allocation_local_offset: vk.DeviceSize,
+        buffer_create_info: *const vk.BufferCreateInfo,
+    ) !vk.Buffer {
+        var buffer: vk.Buffer = .null_handle;
+
+        const result = c.vmaCreateAliasingBuffer2(
+            self.handle,
+            allocation,
+            allocation_local_offset,
+            buffer_create_info,
+            &buffer,
+        );
+
+        if (result != .success or buffer == .null_handle) {
+            return error.FailedToCreateBuffer;
+        }
+
+        return buffer;
+    }
+
+    /// Destroys Vulkan buffer and frees allocated memory.
+    pub fn bufferDestroy(
+        self: *VulkanMemoryAllocator,
+        buffer: ?vk.Buffer,
+        allocation: ?c.Allocation,
+    ) void {
+        c.vmaDestroyBuffer(
+            self.handle,
+            buffer,
+            allocation,
+        );
+    }
+
+    /// Binds buffer to allocation.
+    pub fn bufferBindMemory(
+        self: *VulkanMemoryAllocator,
+        allocation: c.Allocation,
+        buffer: vk.Buffer,
+    ) vk.Result {
+        return c.vmaBindBufferMemory(
+            self.handle,
+            allocation,
+            buffer,
+        );
+    }
+
+    /// Binds buffer to allocation with additional parameters.
+    pub fn bufferBindMemory2(
+        self: *VulkanMemoryAllocator,
+        allocation: c.Allocation,
+        allocation_local_offset: vk.DeviceSize,
+        buffer: vk.Buffer,
+        p_next: ?*const anyopaque,
+    ) vk.Result {
+        return c.vmaBindBufferMemory2(
+            self.handle,
+            allocation,
+            allocation_local_offset,
+            buffer,
+            p_next,
+        );
+    }
+
+    /// Helps to find memoryTypeIndex, given VkBufferCreateInfo and VmaAllocationCreateInfo.
+    pub fn bufferMemoryFindTypeIndex(
+        self: *const VulkanMemoryAllocator,
+        buffer_create_info: *const vk.BufferCreateInfo,
+        allocation_create_info: *const c.AllocationCreateInfo,
+    ) !u32 {
+        var memory_type_index: u32 = undefined;
+
+        const result = c.vmaFindMemoryTypeIndexForBufferInfo(
+            self.handle,
+            buffer_create_info,
+            allocation_create_info,
+            &memory_type_index,
+        );
+
+        if (result != .success) {
+            return error.FeatureNotPresent;
+        }
+
+        return memory_type_index;
+    }
 };
 
 const vk = @import("vulkan");
