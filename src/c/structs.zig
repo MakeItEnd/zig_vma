@@ -55,7 +55,7 @@ pub const AllocationInfo2 = extern struct {
 
 /// Description of a Allocator to be created.
 pub const AllocatorCreateInfo = extern struct {
-    flags: AllocationCreateFlags = .{},
+    flags: AllocatorCreateFlags = .{},
     physical_device: vk.PhysicalDevice,
     device: vk.Device,
     preferred_large_heap_block_size: vk.DeviceSize = 0,
@@ -131,13 +131,6 @@ pub const DeviceMemoryCallbacks = extern struct {
     pfn_allocate: PfnVmaAllocateDeviceMemoryFunction = null,
     pfn_free: PfnVmaFreeDeviceMemoryFunction = null,
     p_user_data: ?*anyopaque,
-
-    // /// Optional, can be null.
-    // PFN_vmaAllocateDeviceMemoryFunction VMA_NULLABLE pfnAllocate;
-    // /// Optional, can be null.
-    // PFN_vmaFreeDeviceMemoryFunction VMA_NULLABLE pfnFree;
-    // /// Optional, can be null.
-    // void* VMA_NULLABLE pUserData;
 };
 
 /// Describes parameter of created VmaPool.
@@ -234,6 +227,7 @@ pub const VulkanFunctions = extern struct {
 const vk = @import("vulkan");
 
 const AllocationCreateFlags = @import("./flags.zig").AllocationCreateFlags;
+const AllocatorCreateFlags = @import("./flags.zig").AllocatorCreateFlags;
 const DefragmentationFlags = @import("./flags.zig").DefragmentationFlags;
 const DefragmentationMoveOperation = @import("./flags.zig").DefragmentationMoveOperation;
 const MemoryUsage = @import("./flags.zig").MemoryUsage;

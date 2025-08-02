@@ -112,7 +112,6 @@ pub extern fn vmaGetVirtualBlockStatistics(
     p_stats: *Statistics,
 ) void;
 
-/// ## Not sure this function is useful in this libraries context.
 /// Fully initializes pDstVulkanFunctions structure with Vulkan functions needed by VMA using volk library.
 ///
 /// Read the docs its more involved: https://gpuopen-librariesandsdks.github.io/VulkanMemoryAllocator/html/group__group__init.html#gaf8d9ee01910a7af7f552145ef0065b9c
@@ -173,7 +172,10 @@ pub extern fn vmaAllocateMemoryForImage(
 ) vk.Result;
 
 /// Frees memory previously allocated using vmaAllocateMemory(), vmaAllocateMemoryForBuffer(), or vmaAllocateMemoryForImage().
-pub extern fn vmaFreeMemory(allocator: Allocator, allocation: ?Allocation) void;
+pub extern fn vmaFreeMemory(
+    allocator: Allocator,
+    allocation: ?Allocation,
+) void;
 
 /// Frees memory and destroys multiple allocations.
 pub extern fn vmaFreeMemoryPages(

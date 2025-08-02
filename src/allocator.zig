@@ -3,6 +3,20 @@
 pub const VulkanMemoryAllocator = struct {
     handle: c.Allocator,
 
+    pub fn importVulkanFunctionsFromVolk(
+        p_allocator_create_info: *const c.AllocationCreateInfo,
+        p_dst_vulkan_functions: *c.VulkanFunctions,
+    ) !void {
+        const result = c.vmaImportVulkanFunctionsFromVolk(
+            p_allocator_create_info,
+            p_dst_vulkan_functions,
+        );
+
+        if (result != .success) {
+            return error.FaildToBindVulkanFunctionsFromVolk;
+        }
+    }
+
     pub fn init(
         create_info: *const c.AllocatorCreateInfo,
     ) !VulkanMemoryAllocator {
@@ -24,6 +38,16 @@ pub const VulkanMemoryAllocator = struct {
 
     pub fn deinit(self: VulkanMemoryAllocator) void {
         c.vmaDestroyAllocator(self.handle);
+    }
+
+    pub fn checkCorruption(
+        self: VulkanMemoryAllocator,
+        memory_type_bits: u32,
+    ) vk.Result {
+        return c.vmaCheckCorruption(
+            self.handle,
+            memory_type_bits,
+        );
     }
 };
 

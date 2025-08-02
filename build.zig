@@ -48,7 +48,15 @@ pub fn build(b: *std.Build) !void {
     // END: Vulkan memory allocator
     // ------------------------------------------------------------------------
 
-    b.installArtifact(lib);
+    var module = b.addModule("zig_vma", .{
+        .target = target,
+        .optimize = optimize,
+        .root_source_file = b.path("src/root.zig"),
+    });
+
+    module.linkLibrary(lib);
+
+    // b.installArtifact(lib);
 
     // Creates a step for unit testing. This only builds the test executable
     // but does not run it.
