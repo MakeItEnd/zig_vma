@@ -536,7 +536,7 @@ pub const VulkanMemoryAllocator = struct {
     }
 
     /// Sets `user_data` in given allocation to new value.
-    pub fn allocationsetUserData(
+    pub fn allocationSetUserData(
         self: *VulkanMemoryAllocator,
         allocation: c.Allocation,
         user_data: ?*anyopaque,

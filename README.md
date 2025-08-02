@@ -91,21 +91,8 @@ For the `VulkanMemoryAllocator` wrapper all `C` functions were renamed to:
 | `vmaInvalidateAllocation` | `allocationInvalidate` |
 | `vmaInvalidateAllocations` | `allocationsInvalidate` |
 | `vmaSetAllocationName` | `allocationSetName` |
-| `vmaSetAllocationUserData` | `allocationsetUserData` |
+| `vmaSetAllocationUserData` | `allocationSetUserData` |
 | `vmaCopyAllocationToMemory` | `allocationCopyToMemory` |
-|||
-| `vmaCreateVirtualBlock` | `` |
-| `vmaDestroyVirtualBlock` | `` |
-| `vmaClearVirtualBlock` | `` |
-| `vmaIsVirtualBlockEmpty` | `` |
-| `vmaGetVirtualBlockStatistics` | `` |
-| `vmaBuildVirtualBlockStatsString` | `` |
-| `vmaFreeVirtualBlockStatsString` | `` |
-| `vmaCalculateVirtualBlockStatistics` | `` |
-| `vmaVirtualAllocate` | `` |
-| `vmaVirtualFree` | `` |
-| `vmaGetVirtualAllocationInfo` | `` |
-| `vmaSetVirtualAllocationUserData` | `` |
 |||
 | `vmaCreatePool` | `` |
 | `vmaDestroyPool` | `` |
@@ -132,6 +119,23 @@ For the `VulkanMemoryAllocator` wrapper all `C` functions were renamed to:
 | `vmaBindImageMemory2` | `` |
 | `vmaFindMemoryTypeIndexForImageInfo` | `` |
 
+For the `VirtualBlock` wrapper all `C` functions were renamed to:
+
+| Old Name | New Name |
+|:---------|:---------|
+| `vmaCreateVirtualBlock` | `init` |
+| `vmaDestroyVirtualBlock` | `deinit` |
+| `vmaVirtualAllocate` | `allocate` |
+| `vmaVirtualFree` | `free` |
+| `vmaClearVirtualBlock` | `clear` |
+| `vmaIsVirtualBlockEmpty` | `isEmpty` |
+| `vmaGetVirtualBlockStatistics` | `getStatistics` |
+| `vmaBuildVirtualBlockStatsString` | `statsStringBuild` |
+| `vmaFreeVirtualBlockStatsString` | `statsStringFree` |
+| `vmaCalculateVirtualBlockStatistics` | `calculateStatistics` |
+| `vmaGetVirtualAllocationInfo` | `allocationGetInfo` |
+| `vmaSetVirtualAllocationUserData` | `allocationSetUserData` |
+
 # Extra info
 
 > [!NOTE]
@@ -142,3 +146,4 @@ For the `VulkanMemoryAllocator` wrapper all `C` functions were renamed to:
 - [ ] Write a wrapper over the functionality.
 - [ ] Add example.
 - [ ] Improve documentation.
+- [ ] Convert more `vk.Result` returns form wrapped functions to a more `zig`-like response.
