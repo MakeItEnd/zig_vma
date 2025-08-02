@@ -83,16 +83,16 @@ For the `VulkanMemoryAllocator` wrapper all `C` functions were renamed to:
 | `vmaCopyMemoryToAllocation` | `memoryCopyToAllocation` |
 | `vmaGetMemoryWin32Handle` | `memoryGetWin32Handle` |
 |||
-| `vmaFlushAllocation` | `` |
-| `vmaFlushAllocations` | `` |
-| `vmaGetAllocationInfo` | `` |
-| `vmaGetAllocationInfo2` | `` |
-| `vmaGetAllocationMemoryProperties` | `` |
-| `vmaInvalidateAllocation` | `` |
-| `vmaInvalidateAllocations` | `` |
-| `vmaSetAllocationName` | `` |
-| `vmaSetAllocationUserData` | `` |
-| `vmaCopyAllocationToMemory` | `` |
+| `vmaFlushAllocation` | `allocationFlush` |
+| `vmaFlushAllocations` | `allocationsFlush` |
+| `vmaGetAllocationInfo` | `allocationGetInfo` |
+| `vmaGetAllocationInfo2` | `allocationGetInfo2` |
+| `vmaGetAllocationMemoryProperties` | `allocationGetMemoryProperties` |
+| `vmaInvalidateAllocation` | `allocationInvalidate` |
+| `vmaInvalidateAllocations` | `allocationsInvalidate` |
+| `vmaSetAllocationName` | `allocationSetName` |
+| `vmaSetAllocationUserData` | `allocationsetUserData` |
+| `vmaCopyAllocationToMemory` | `allocationCopyToMemory` |
 |||
 | `vmaCreateVirtualBlock` | `` |
 | `vmaDestroyVirtualBlock` | `` |

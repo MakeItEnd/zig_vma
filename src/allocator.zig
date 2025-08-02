@@ -409,6 +409,161 @@ pub const VulkanMemoryAllocator = struct {
             Handle,
         );
     }
+
+    /// Flushes memory of given allocation.
+    pub fn allocationFlush(
+        self: *VulkanMemoryAllocator,
+        allocation: c.Allocation,
+        offset: vk.DeviceSize,
+        size: vk.DeviceSize,
+    ) vk.Result {
+        return c.vmaFlushAllocation(
+            self.handle,
+            allocation,
+            offset,
+            size,
+        );
+    }
+
+    /// Flushes memory of given set of allocations.
+    pub fn allocationsFlush(
+        self: *VulkanMemoryAllocator,
+        allocation_count: u32,
+        allocations: ?*const c.Allocation,
+        offsets: ?*const vk.DeviceSize,
+        sizes: ?*const vk.DeviceSize,
+    ) vk.Result {
+        return c.vmaFlushAllocations(
+            self.handle,
+            allocation_count,
+            allocations,
+            offsets,
+            sizes,
+        );
+    }
+
+    /// Returns current information about specified allocation.
+    pub fn allocationGetInfo(
+        self: *const VulkanMemoryAllocator,
+        allocation: c.Allocation,
+    ) c.AllocationInfo {
+        var allocation_info: c.AllocationInfo = .{};
+
+        c.vmaGetAllocationInfo(
+            self.handle,
+            allocation,
+            &allocation_info,
+        );
+
+        return allocation_info;
+    }
+
+    /// Returns extended information about specified allocation.
+    pub fn allocationGetInfo2(
+        self: *const VulkanMemoryAllocator,
+        allocation: c.Allocation,
+    ) c.AllocationInfo2 {
+        var allocation_info: c.AllocationInfo2 = .{};
+
+        c.vmaGetAllocationInfo2(
+            self.handle,
+            allocation,
+            &allocation_info,
+        );
+
+        return allocation_info;
+    }
+
+    /// Given an allocation, returns Property Flags of its memory type.
+    pub fn allocationGetMemoryProperties(
+        self: *const VulkanMemoryAllocator,
+        allocation: c.Allocation,
+    ) vk.MemoryPropertyFlags {
+        var flags: vk.MemoryPropertyFlags = .{};
+
+        c.vmaGetAllocationMemoryProperties(
+            self.handle,
+            allocation,
+            &flags,
+        );
+
+        return flags;
+    }
+
+    /// Invalidates memory of given allocation.
+    pub fn allocationInvalidate(
+        self: *VulkanMemoryAllocator,
+        allocation: c.Allocation,
+        offset: vk.DeviceSize,
+        size: vk.DeviceSize,
+    ) vk.Result {
+        return c.vmaInvalidateAllocation(
+            self.handle,
+            allocation,
+            offset,
+            size,
+        );
+    }
+
+    /// Invalidates memory of given set of allocations.
+    pub fn allocationsInvalidate(
+        self: *VulkanMemoryAllocator,
+        allocation_count: u32,
+        allocations: ?*const c.Allocation,
+        offsets: ?*const vk.DeviceSize,
+        sizes: ?*const vk.DeviceSize,
+    ) vk.Result {
+        return c.vmaInvalidateAllocations(
+            self.handle,
+            allocation_count,
+            allocations,
+            offsets,
+            sizes,
+        );
+    }
+
+    /// Sets pName in given allocation to new value.
+    pub fn allocationSetName(
+        self: *VulkanMemoryAllocator,
+        allocation: c.Allocation,
+        name: ?[*:0]const u8,
+    ) void {
+        c.vmaSetAllocationName(
+            self.handle,
+            allocation,
+            name,
+        );
+    }
+
+    /// Sets `user_data` in given allocation to new value.
+    pub fn allocationsetUserData(
+        self: *VulkanMemoryAllocator,
+        allocation: c.Allocation,
+        user_data: ?*anyopaque,
+    ) void {
+        c.vmaSetAllocationUserData(
+            self.handle,
+            allocation,
+            user_data,
+        );
+    }
+
+    /// Invalidates memory in the host caches if needed, maps the allocation temporarily if needed, and copies data from it to a specified host pointer.
+    pub fn allocationCopyToMemory(
+        self: *VulkanMemoryAllocator,
+        src_allocation: c.Allocation,
+        src_allocation_local_offset: vk.DeviceSize,
+        dst_host_pointer: *anyopaque,
+        size: vk.DeviceSize,
+    ) vk.Result {
+        return c.vmaCopyAllocationToMemory(
+            self.handle,
+            src_allocation,
+            src_allocation_local_offset,
+            dst_host_pointer,
+            size,
+        );
+    }
 };
 
 const vk = @import("vulkan");
