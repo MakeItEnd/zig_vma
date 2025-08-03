@@ -84,7 +84,7 @@ pub const VulkanMemoryAllocator = struct {
 
     /// Sets index of the current frame.
     pub fn setCurrentFrameIndex(
-        self: *const VulkanMemoryAllocator,
+        self: *VulkanMemoryAllocator,
         frame_index: u32,
     ) void {
         c.vmaSetCurrentFrameIndex(self.handle, frame_index);
@@ -281,7 +281,7 @@ pub const VulkanMemoryAllocator = struct {
     /// Frees memory previously allocated using vmaAllocateMemory(), vmaAllocateMemoryForBuffer(), or vmaAllocateMemoryForImage().
     pub fn memoryFree(
         self: *VulkanMemoryAllocator,
-        allocation: ?c.Allocation,
+        allocation: c.Allocation,
     ) void {
         c.vmaFreeMemory(self.handle, allocation);
     }
@@ -768,8 +768,8 @@ pub const VulkanMemoryAllocator = struct {
     /// Destroys Vulkan buffer and frees allocated memory.
     pub fn bufferDestroy(
         self: *VulkanMemoryAllocator,
-        buffer: ?vk.Buffer,
-        allocation: ?c.Allocation,
+        buffer: vk.Buffer,
+        allocation: c.Allocation,
     ) void {
         c.vmaDestroyBuffer(
             self.handle,
@@ -906,7 +906,7 @@ pub const VulkanMemoryAllocator = struct {
     pub fn imageDestroy(
         self: *VulkanMemoryAllocator,
         image: vk.Image,
-        allocation: ?c.Allocation,
+        allocation: c.Allocation,
     ) void {
         c.vmaDestroyImage(
             self.handle,

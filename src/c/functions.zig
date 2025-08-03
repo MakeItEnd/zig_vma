@@ -65,7 +65,7 @@ pub extern fn vmaDestroyPool(
 ///
 /// If you keep pointers to some additional metadata associated with your virtual allocations in their pUserData, don't forget to free them.
 pub extern fn vmaDestroyVirtualBlock(
-    virtual_block: ?VirtualBlock,
+    virtual_block: VirtualBlock,
 ) void;
 
 /// Checks magic number in margins around all allocations in given memory pool in search for corruptions.
@@ -174,7 +174,7 @@ pub extern fn vmaAllocateMemoryForImage(
 /// Frees memory previously allocated using vmaAllocateMemory(), vmaAllocateMemoryForBuffer(), or vmaAllocateMemoryForImage().
 pub extern fn vmaFreeMemory(
     allocator: Allocator,
-    allocation: ?Allocation,
+    allocation: Allocation,
 ) void;
 
 /// Frees memory and destroys multiple allocations.
@@ -307,7 +307,7 @@ pub extern fn vmaVirtualAllocate(
 /// It is correct to call this function with allocation == VK_NULL_HANDLE - it does nothing.
 pub extern fn vmaVirtualFree(
     virtual_block: VirtualBlock,
-    allocation: ?VirtualAllocation,
+    allocation: VirtualAllocation,
 ) void;
 
 /// Flushes memory of given allocation.
@@ -513,8 +513,8 @@ pub extern fn vmaCreateAliasingBuffer2(
 /// Destroys Vulkan buffer and frees allocated memory.
 pub extern fn vmaDestroyBuffer(
     allocator: Allocator,
-    buffer: ?vk.Buffer,
-    allocation: ?Allocation,
+    buffer: vk.Buffer,
+    allocation: Allocation,
 ) void;
 
 /// Function similar to vmaCreateBuffer().
@@ -554,7 +554,7 @@ pub extern fn vmaCreateAllocator(
 pub extern fn vmaDestroyImage(
     allocator: Allocator,
     image: vk.Image,
-    allocation: ?Allocation,
+    allocation: Allocation,
 ) void;
 
 // Typdef functions -----------------------------------------------------------
