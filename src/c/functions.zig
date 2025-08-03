@@ -553,7 +553,7 @@ pub extern fn vmaCreateAllocator(
 /// Destroys Vulkan image and frees allocated memory.
 pub extern fn vmaDestroyImage(
     allocator: Allocator,
-    image: ?vk.Image,
+    image: vk.Image,
     allocation: ?Allocation,
 ) void;
 

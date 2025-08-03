@@ -905,7 +905,7 @@ pub const VulkanMemoryAllocator = struct {
     /// Destroys Vulkan image and frees allocated memory.
     pub fn imageDestroy(
         self: *VulkanMemoryAllocator,
-        image: ?vk.Image,
+        image: vk.Image,
         allocation: ?c.Allocation,
     ) void {
         c.vmaDestroyImage(
