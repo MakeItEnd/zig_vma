@@ -31,7 +31,7 @@ pub const AllocationCreateInfo = extern struct {
     required_flags: vk.MemoryPropertyFlags = .{},
     preferred_flags: vk.MemoryPropertyFlags = .{},
     memory_type_bits: u32 = 0,
-    pool: ?Pool = null,
+    pool: Pool = .null_handle,
     p_user_data: ?*anyopaque = null,
     priority: f32 = 0.0,
 };
