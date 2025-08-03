@@ -11,7 +11,7 @@ Using VMA version 3.3.0
 This is a ziggyfied wrapper over [VulkanMemoryAllocator](https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator) that also exposes the `C` API.
 
 > [!NOTE]
-> This library tightly coupled with [Snektron/vulkan-zig](https://github.com/Snektron/vulkan-zig) library. (This [MAY](https://datatracker.ietf.org/doc/html/rfc2119#section-5) change in the future)
+> This library is tightly coupled with the [Snektron/vulkan-zig](https://github.com/Snektron/vulkan-zig) library. (This [MAY](https://datatracker.ietf.org/doc/html/rfc2119#section-5) change in the future)
 
 # How to install
 
@@ -31,7 +31,7 @@ const zig_vma = zig_vma_dep.module("zig_vma");
 // IMPORTANT: Add vulkan-zig import to zig_vma!
 // --- vulkan-zig
 const vulkan = b.dependency("vulkan", .{
-    .registry = b.path("./vk.xml"),
+    .registry = b.dependency("vulkan_headers", .{}).path("registry/vk.xml"),
 }).module("vulkan-zig");
 // --- vulkan-zig
 
@@ -135,6 +135,10 @@ For the `VirtualBlock` wrapper all `C` functions were renamed to:
 | `vmaCalculateVirtualBlockStatistics` | `calculateStatistics` |
 | `vmaGetVirtualAllocationInfo` | `allocationGetInfo` |
 | `vmaSetVirtualAllocationUserData` | `allocationSetUserData` |
+
+With the exception of the `Allocator` and `VirtualBlock` handles all other handels and struct are re-exported from the `c` namespace into root for ease of access.
+
+The `c` namespace is mostly useful only if you want to call the `C` functions directly.
 
 # TODO
 

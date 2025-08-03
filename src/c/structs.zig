@@ -18,9 +18,6 @@ pub const VirtualAllocation = enum(u64) { null_handle = 0, _ };
 /// Handle to a virtual block object that allows to use core allocation algorithm without allocating any real GPU memory.
 pub const VirtualBlock = enum(usize) { null_handle = 0, _ };
 
-// Functions ------------------------------------------------------------------
-// ----------------------------------------------------------------------------
-
 // Structs --------------------------------------------------------------------
 // ----------------------------------------------------------------------------
 
