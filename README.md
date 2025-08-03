@@ -136,11 +136,6 @@ For the `VirtualBlock` wrapper all `C` functions were renamed to:
 | `vmaGetVirtualAllocationInfo` | `allocationGetInfo` |
 | `vmaSetVirtualAllocationUserData` | `allocationSetUserData` |
 
-# Extra info
-
-> [!NOTE]
-> Lots of inspiration taken form [https://github.com/damemay/vk-mem-alloc-zig](https://github.com/damemay/vk-mem-alloc-zig).
-
 # TODO
 
 - [x] Finish `C` API.
