@@ -26,15 +26,12 @@ pub fn build(b: *std.Build) !void {
             \\#define VMA_STATIC_VULKAN_FUNCTIONS 0
             \\#include <vk_mem_alloc.h>
         ),
-
         .flags = &.{"-std=c++17"},
     });
     // ------------------------------------------------------------------------
     // END: Vulkan memory allocator
     // ------------------------------------------------------------------------
 
-    // Creates a step for unit testing. This only builds the test executable
-    // but does not run it.
     const module_unit_tests = b.addTest(.{
         .root_module = module,
     });
