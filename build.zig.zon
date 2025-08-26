@@ -2,7 +2,7 @@
     .name = .zig_vma,
     .version = "0.0.0",
     .fingerprint = 0xf869eae64d11ad35, // Changing this has security and trust implications.
-    .minimum_zig_version = "0.14.1",
+    .minimum_zig_version = "0.15.1",
     .dependencies = .{
         .VulkanMemoryAllocator = .{
             .url = "https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator/archive/refs/tags/v3.3.0.tar.gz",
@@ -13,6 +13,7 @@
         "build.zig",
         "build.zig.zon",
         "src",
+        // "examples",
         "LICENSE",
         "README.md",
     },

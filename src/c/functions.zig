@@ -9,7 +9,7 @@ else if (builtin.abi == .android and (builtin.cpu.arch.isARM() or builtin.cpu.ar
     // as it does by default when compiling for the armeabi-v7a NDK ABI.
     .AAPCSVFP
 else
-    .C;
+    .c;
 
 /// Helps to find memoryTypeIndex, given memoryTypeBits and VmaAllocationCreateInfo.
 pub extern fn vmaFindMemoryTypeIndex(
